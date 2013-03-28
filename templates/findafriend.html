@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Concierge</title>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+  <script>
+   var accessToken = '{{ user_profile.access_token }}';
+  </script>
+
+  <script src="/static/app.js"></script>
+
+  <link rel="stylesheet" href="/static/style.css" />
+ </head>
+
+ <body>
+ 	<div id="header" class="left">
+	 	<a id="headerText" class="left" href="/">Concierge</a>
+	 	<span id="tagline" class="left"> We recommend things</span>
+ 	</div>
+ 	<div id="contentWrapper">
+	    <div id="" class="">
+		    <h2>Here's your new friend!</h2>
+			    {% if request.user.is_authenticated %}
+			    <div id="friendWrapper">
+				    <div id="friendList">
+					    {{ suggested_user.username }}
+				    </div>
+			    </div>
+			    {% endif %}
+	    </div>
+    </div>
+  </body>
+</html>

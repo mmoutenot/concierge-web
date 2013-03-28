@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Concierge</title>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+  <script>
+   var accessToken = '{{ user_profile.access_token }}';
+  </script>
+
+  <script src="/static/app.js"></script>
+
+  <link rel="stylesheet" href="/static/style.css" />
+ </head>
+
+ <body>
+ 	<div id="header" class="left">
+	 	<a id="headerText" class="left" href="/">Concierge</a>
+	 	<span id="tagline" class="left"> We recommend things</span>
+ 	</div>
+ 	<div id="contentWrapper">
+	 	<div id="leftPop" class="login left popOutWithBorder">   
+		    <h2>Step 1. Log In</h2>
+		
+		    <ul id="auth">
+		    {% for service in services %}
+		        <li>
+		            <a href="/authenticate/{{ service.lower }}">
+		                {% if service.lower in profiles %}
+		                    <span class="check">&#10003;</span>
+		                {% endif %}
+		                {{ service }}
+		            </a>
+		        </li>
+		    {% endfor %}
+		    </ul>
+
+		    {% if request.user.is_authenticated %}
+		    <div id="access-token-wrapper">
+		        <p>Here's your access token for making API calls directly: 
+		        	<input type="text" id="access-token" value="{{ user_profile.access_token }}" />
+		        	
+		        </p>
+		        <p>Profiles: <input type="text" id="access-token" value="{{ user_profile.profiles }}" /></p>
+		    </div>		    		    
+		    
+	    {% endif %}
+	    
+	     <h2>Step 2. Find a friend</h2>
+		   <a href="./findafriend.html">Find a new friend</a>
+	    </div>
+    </div> 
+  </body>
+</html>
