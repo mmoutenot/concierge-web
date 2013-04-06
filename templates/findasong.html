@@ -21,11 +21,11 @@
     </div>
     <div id="contentWrapper">
       <div id="" class="">
-        <h2>Here's your new friend!</h2>
+        <h2>Here's a song you might like</h2>
         {% if request.user.is_authenticated %}
-        <div id="friendWrapper">
-          <div id="friendList">
-            {{ suggested_user.first_name }}
+        <div id="songWrapper">
+          <div id="songList">
+            {{ suggested_song }}
           </div>
         </div>
         {% endif %}
