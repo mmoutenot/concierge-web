@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'user_profile',
+    'recommendation_item',
 )
 
 # A sample logging configuration. The only tangible logging

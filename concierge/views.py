@@ -18,9 +18,7 @@ def index(request, template='index.html'):
           profiles = simplejson.loads(user_profile.profiles.replace("'", '"'))
         else:
           profiles = ""
-    response = render_to_response(
-            template, locals(), context_instance=RequestContext(request)
-        )
+    response = render_to_response(template, locals(), context_instance=RequestContext(request))
     return response
 
 def suggest_user(request):
