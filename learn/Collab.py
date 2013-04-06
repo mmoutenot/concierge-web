@@ -2,7 +2,7 @@ import cPickle, json, math
 from datetime import date
 
 from user_profile.models import UserProfile
-from reccomendation_item.models import ReccomendationItem, Restaurant
+from recommendation_item.models import RecommendationItem, Restaurant
 
 # Collab is based on the memory-based collaboration filtering
 # algorithm found at http://en.wikipedia.org/wiki/Collaborative_filtering
