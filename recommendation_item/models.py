@@ -5,7 +5,6 @@ from django.contrib.localflavor.us.models import USStateField
 
 from django.contrib.auth.models import User
 
-from utility import models as util_models
 
 # address model from: https://docs.djangoproject.com/en/dev/ref/contrib/gis/model-api/
 class Address(geo_models.Model):
@@ -76,11 +75,11 @@ class RecommendationItem(models.Model):
 
 # specific recommendation item extensions
 class Restaurant(RecommendationItem):
-  # cuisines = models.CharField(max_length=400, null=True, blank=True)
+  cuisines = models.CharField(max_length=400, null=True, blank=True)
   # rating, dangerous assumption that this is always out of 5
   rating = models.FloatField(null=True, blank=True)
   # price from 1-5
-  # price = util_models.IntegerRangeField(min_value=-1,max_value=5)
+  price = models.IntegerField()
 
   def __unicode__(self):
     return self.title
