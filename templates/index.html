@@ -17,21 +17,29 @@
   </head>
 
   <body>
-    <div class="row">
-      <div class="large-10 large-centered columns" id="header"><h1>Concierge</h1></div>
-    </div>
-    <div class="row">
-      <div class="large-7 columns"></div>
-      <div class="large-2 columns"><a href="/authenticate/facebook"><img src="/static/img/fb.png"></a></div>
-    </div>
-
-    <div id="contentWrapper">
-        {% if request.user.is_authenticated %}
-          <h2>Get a Rec</h2>
-          <p><a href="./findafriend.html">Find a new friend</a></p>
-          <p><a href="./findasong.html">Find a new song</a></p>
-          <p><a href="./pickgotos/">Pick your goto restaurants</a></p>
-        {% endif %}
-    </div>
+    {% if not request.user.is_authenticated %}
+      <div class="row">
+        <div class="large-10 large-centered columns" id="header"><h1>Concierge</h1></div>
+      </div>
+      <div class="row">
+        <div class="large-7 columns"></div>
+        <div class="large-2 columns"><a href="/authenticate/facebook"><img src="/static/img/fb.png"></a></div>
+      </div>
+    {% else %}
+      <div class="row">
+        <div id="rec-wrap">
+          <div class="large-8 columns"><h1>Get a Rec</h1></div>
+          <div id="rec-links">
+            <div class="large-4 columns"><h3><a href="./findeat.html">Find a new place to eat</a></h3></div>
+            <div class="large-4 columns"><h3><a href="./findasong.html">Find a new song</a></h3></div>
+          </div>
+        </div>
+      </div>
+      <!-- <div id="contentWrapper"> -->
+      <!--   <h2>Get a Rec</h2> -->
+      <!--   <p><a href="./findafriend.html">Find a new friend</a></p> -->
+      <!--   <p><a href="./findasong.html">Find a new song</a></p> -->
+      <!-- </div> -->
+    {% endif %}
   </body>
 </html>
