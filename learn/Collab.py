@@ -24,7 +24,7 @@ class Collab(object):
                                   if not x == u and self._get_rating(i,x) ]
     top_n_most_sim = sorted(relevant_users,
                             key=lambda x: abs(self._user_user_sim(u,x)),
-                            reverse=True)[:self.n]
+                            reverse=True)[:10]
 
     # return a weighted average of the ratings of the item in question
     weighted_sum = 0.0
@@ -43,17 +43,19 @@ class Collab(object):
   # that the user is most likely to like
   def suggest_items(self, n, u):
     item_rating_pairs = []
-    for i in ReccomendationItem.objects.all():
-      if not self._get_rating(i, u):
+    for i in RecommendationItem.objects.all():
+      if i not in u.gotos.all():
         item_rating_pairs.append((i, self.predict_rating(i, u)))
     return zip(*sorted(item_rating_pairs,
                        key=lambda x: x[1],
                        reverse=True)[:n])[0]
 
   def suggest_restaurants(self, n, u):
+    print "SUGGESTING!!!!!!"
+    print u.gotos.all()
     item_rating_pairs = []
     for i in Restaurant.objects.all():
-      if not self._get_rating(i, u):
+      if i not in u.gotos.all():
         item_rating_pairs.append((i, self.predict_rating(i, u)))
     return zip(*sorted(item_rating_pairs,
                        key=lambda x: x[1],
@@ -109,9 +111,8 @@ class Collab(object):
   # returns the feature vector corresponding to that UserProfile. missing items
   # have the value None
   def _get_feature_vector(self, u):
-    fb_data = json.loads(u.fb_data)
     feature_vector = {}
-    if 'likes' in fb_data:
-      for l in fb_data['likes']:
-        feature_vector[l[0]] = 1
+    gotos = u.gotos.all()
+    for r in RecommendationItem.objects.all():
+      feature_vector[r.title] = 1 if r in gotos else 0
     return feature_vector
