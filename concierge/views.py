@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.http import HttpResponseRedirect
+from django.contrib import auth
 import simplejson
 from learn.Collab import Collab
 
@@ -28,3 +29,7 @@ def suggest_user(request):
       suggested_user = Collab().suggest_users(user_profile, 1)[0].user
       return render_to_response(template, locals(), context_instance=RequestContext(request))
     return HttpResponseRedirect(reverse('concierge.views.index'))
+
+def logout_user(request):
+  auth.logout(request)
+  return HttpResponseRedirect(reverse('concierge.views.index'))
