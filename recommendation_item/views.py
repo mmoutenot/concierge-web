@@ -2,9 +2,12 @@ from time import sleep
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
+from django.template.context import RequestContext
 
 from factual import Factual
 from factual.utils import circle
+
+from utility import g_utility
 
 
 from recommendation_item.models import Restaurant, Address
@@ -67,3 +70,12 @@ def testFactual(request):
     lat -= (100/LENGTH_OF_ONE_LAT)
     lon = -71.130553
   return HttpResponse("OK")
+
+
+def recommendRestaurants(request, template = "resrecos.html" ):
+  user_profile = request.user.get_profile()
+  recs = user_profile.gotos.all()
+  image_urls = [g_utility.gImageSearch(r) for r in recs]
+  
+  
+  return render_to_response(template, locals(), context_instance=RequestContext(request))

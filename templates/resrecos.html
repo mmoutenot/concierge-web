@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Concierge</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <script>
+      var accessToken = '{{ user_profile.access_token }}';
+    </script>
+
+    <script src="/static/app.js"></script>
+
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <div id="header" class="left">
+      <a id="headerText" class="left" href="/">Concierge</a>
+      <span id="tagline" class="left"> We recommend things</span>
+    </div>
+    <div id="contentWrapper">
+      <div id="" class="">
+        <h2>Here's a bunch of restaurants you might like</h2>
+        {% if request.user.is_authenticated %}
+        {% for i in image_urls %}
+        <div id="songWrapper">
+          <div id="songList">
+            <img src='{{ i }}'\>
+          </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>

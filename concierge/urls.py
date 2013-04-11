@@ -12,3 +12,6 @@ urlpatterns = patterns('concierge.views',
 
 urlpatterns += patterns('recommendation_item.views',
     url(r'^getFactual/', 'testFactual'))
+
+urlpatterns += patterns('recommendation_item.views',
+    url(r'^recRestaurants/', 'recommendRestaurants'))

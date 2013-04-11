@@ -9,9 +9,9 @@ import json
 
 def pickgotos(request, template = "gotos.html"):
 
-    poll_favorites = 
-    for faves in range(5):
-        poll_favorites.append(["", ""])
+    raw_gotos = [] 
+    for count in range(5):
+        raw_gotos.append(["", ""])
 
     return render_to_response(template, locals(), context_instance=RequestContext(request))
 
@@ -42,10 +42,11 @@ def savegotos(request):
                                                         address=a,
                                                    data_sources=sources)
          
-          if not r_created:
+          
+          if not r_created and (not r in user_profile.gotos.all()):
             gotos.append(r)
 
-      user_profile.gotos = gotos
+      [user_profile.gotos.add(i) for i in gotos]
       user_profile.save()
 
-    return
+    return render_to_response(template, locals(), context_instance=RequestContext(request))
