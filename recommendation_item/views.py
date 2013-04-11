@@ -8,6 +8,7 @@ from factual import Factual
 from factual.utils import circle
 
 from utility import g_utility
+from learn.Collab import Collab
 
 
 from recommendation_item.models import Restaurant, Address
@@ -73,8 +74,9 @@ def testFactual(request):
 
 
 def recommendRestaurants(request, template = "resrecos.html" ):
+  c = Collab()
   user_profile = request.user.get_profile()
-  restaurants = user_profile.gotos.all()
-  recs = [(r, g_utility.gImageSearch(r)) for r in restaurants]
-  
+  reccomendations = c.suggest_restaurants(4,user_profile)
+  recs = [(r, g_utility.gImageSearch(r)) for r in reccomendations]
+
   return render_to_response(template, locals(), context_instance=RequestContext(request))
