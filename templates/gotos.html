@@ -1,0 +1,12 @@
+<h1>{{ poll.question }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="/savegotos/" method="post">
+{% csrf_token %}
+{% for r in raw_gotos %}
+    <input type="text" name="rawgotos" id="restaurant{{ forloop.counter }}" value="" />
+    <label for="restaurant{{ forloop.counter }}">Restaurant {{ forloop.counter }}</label><br />
+{% endfor %}
+<input type="submit" value="Submit" />
+</form>
