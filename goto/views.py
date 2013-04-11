@@ -3,7 +3,10 @@ from django.shortcuts import get_object_or_404, render, render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.template.context import RequestContext
+
 from recommendation_item.models import Restaurant, Address
+from recommendation_item.views import restaurantFromFactual, addressFromFactual
+
 from utility import match
 import json
 
@@ -28,20 +31,8 @@ def savegotos(request):
           
           sources = "{'factual':["+datum.get('factual_id', 0)+"]}"
           
-          a, a_created = Address.objects.get_or_create(street_address=datum.get('address',""),
-                                                           city=datum.get('locality',""),
-                                                          state=datum.get('region',""),
-                                                        zipcode=datum.get('postcode',""),
-                                                      longitude=datum.get('longitude',-1),
-                                                       latitude=datum.get('latitude',-1))
-
-          r, r_created = Restaurant.objects.get_or_create( title=datum.get('name',None),
-                                                       cuisines=datum.get('cuisine',None),
-                                                         rating=datum.get('rating', -1),
-                                                          price=datum.get('price', -1),
-                                                        address=a,
-                                                   data_sources=sources)
-         
+          a, a_created = addressFromFactual(datum)
+          r, r_created = restaurantFromFactual(datum, a, sources)
           
           if not r_created and (not r in user_profile.gotos.all()):
             gotos.append(r)

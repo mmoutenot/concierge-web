@@ -29,3 +29,6 @@ nosetests.xml
 .venv
 .DS_Store
 */.DS_Store
+*.pyc
+*.swp
+*~
