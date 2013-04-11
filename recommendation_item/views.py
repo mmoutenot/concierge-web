@@ -74,8 +74,7 @@ def testFactual(request):
 
 def recommendRestaurants(request, template = "resrecos.html" ):
   user_profile = request.user.get_profile()
-  recs = user_profile.gotos.all()
-  image_urls = [g_utility.gImageSearch(r) for r in recs]
-  
+  restaurants = user_profile.gotos.all()
+  recs = [(r, g_utility.gImageSearch(r)) for r in restaurants]
   
   return render_to_response(template, locals(), context_instance=RequestContext(request))

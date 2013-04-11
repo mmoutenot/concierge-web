@@ -49,4 +49,4 @@ def savegotos(request):
       [user_profile.gotos.add(i) for i in gotos]
       user_profile.save()
 
-    return render_to_response(template, locals(), context_instance=RequestContext(request))
+    return HttpResponseRedirect('../recRestaurants')

@@ -23,10 +23,17 @@
       <div id="" class="">
         <h2>Here's a bunch of restaurants you might like</h2>
         {% if request.user.is_authenticated %}
-        {% for i in image_urls %}
+        {% for r, img in recs %}
         <div id="songWrapper">
           <div id="songList">
-            <img src='{{ i }}'\>
+            <img src='{{ img }}'\>
+            {{ r.title }} 
+            {{ r.address.street_address }} 
+            {{ r.city }} 
+            {{ r.state }} 
+            {{ r.rating }} 
+            {{ r.price }} 
+            {{ r.cuisines }} 
           </div>
         </div>
         {% endfor %}
