@@ -11,7 +11,7 @@ from utility import g_utility
 from learn.Collab import Collab
 
 
-from recommendation_item.models import Restaurant, Address
+from recommendation_item.models import Restaurant, Address, restaurantFromFactual, addressFromFactual
 
 FACTUAL_KEY = "frBfryFdtbYqmlgHrMB7LeSYWCOefyS0fhkIQTpp"
 FACTUAL_SECRET = "Qh25xjtI1XzsJ2CT7TohBArnSQKt3P3v8uyHZKpC"
@@ -35,19 +35,9 @@ def getRestaurantDataFromFactual(location):
     # dictionary to hold current item's descriptors
     sources = "{'factual':["+datum.get('factual_id', 0)+"]}"
 
-    a, a_created = Address.objects.get_or_create(street_address=datum.get('address',""),
-                                                           city=datum.get('locality',""),
-                                                          state=datum.get('region',""),
-                                                        zipcode=datum.get('postcode',""),
-                                                      longitude=datum.get('longitude',-1),
-                                                       latitude=datum.get('latitude',-1))
+    a, a_created = addressFromFactual(datum)
+    r, r_created = restaurantFromFactual(datum, a, sources)
 
-    r, r_created = Restaurant.objects.get_or_create( title=datum.get('name',None),
-                                                       cuisines=datum.get('cuisine',None),
-                                                         rating=datum.get('rating', -1),
-                                                          price=datum.get('price', -1),
-                                                        address=a,
-                                                   data_sources=sources)
     if r_created:
       added_names.append(datum.get('name',None))
 
@@ -80,3 +70,5 @@ def recommendRestaurants(request, template = "resrecos.html" ):
   recs = [(r, g_utility.gImageSearch(r)) for r in reccomendations]
 
   return render_to_response(template, locals(), context_instance=RequestContext(request))
+
+

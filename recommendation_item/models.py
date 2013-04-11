@@ -83,3 +83,21 @@ class Restaurant(RecommendationItem):
 
   def __unicode__(self):
     return self.title
+
+def addressFromFactual(datum):
+    a, a_created = Address.objects.get_or_create(street_address=datum.get('address',""),
+                                                           city=datum.get('locality',""),
+                                                          state=datum.get('region',""),
+                                                        zipcode=datum.get('postcode',""),
+                                                      longitude=datum.get('longitude',-1),
+                                                       latitude=datum.get('latitude',-1))
+    return [a, a_created]
+  
+def restaurantFromFactual(datum, a, sources):
+    r, r_created = Restaurant.objects.get_or_create( title=datum.get('name',None),
+                                                       cuisines=datum.get('cuisine',None),
+                                                         rating=datum.get('rating', -1),
+                                                          price=datum.get('price', -1),
+                                                        address=a,
+                                                   data_sources=sources)
+    return [r, r_created]
