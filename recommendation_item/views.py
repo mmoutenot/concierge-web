@@ -66,8 +66,15 @@ def testFactual(request):
 def recommendRestaurants(request, template = "resrecos.html" ):
   c = Collab()
   user_profile = request.user.get_profile()
-  reccomendations = c.suggest_restaurants(4,user_profile)
-  recs = [(r, g_utility.gImageSearch(r)) for r in reccomendations]
+  #reccomendations = c.suggest_restaurants(4,user_profile)
+  recommendations = user_profile.gotos
+  recs = []
+  for r in recommendations.all():
+    cuisines = eval(str(r.cuisines))
+    recs.append((r, cuisines, g_utility.gImageSearch(r)))
+
+
+
 
   return render_to_response(template, locals(), context_instance=RequestContext(request))
 
