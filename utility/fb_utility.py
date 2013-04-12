@@ -35,24 +35,27 @@ def fill_profile(user_profile, singly_id, access_token):
   return json.dumps(fb_profile)
     
 def fill_restaurant_likes(user_profile, name, full_like):
-  restaurantQuery = name
 
   udata = unicode("data")
   ulocation = unicode('location')
+  
+  city = ""
+  state = ""
+  #print full_like
 
   if ulocation in full_like[udata]:
     if unicode('city') in full_like[udata][ulocation]:
-      restaurantQuery += " " + full_like[udata][ulocation][unicode('city')]
+      city = full_like[udata][ulocation][unicode('city')]
     if unicode('state') in full_like[udata][ulocation]:
-      restaurantQuery += " " + full_like[udata][ulocation][unicode('state')]
+      state = full_like[udata][ulocation][unicode('state')]
 
-  frestaurant = match.matchRestaurant(restaurantQuery)
+  frestaurant = match.matchRestaurant(name, city, state)
   if frestaurant:
     sources = "{'factual':["+frestaurant[0].get('factual_id', 0)+"]}"
+    
 
     a, a_created = addressFromFactual(frestaurant[0])
     r, r_created = restaurantFromFactual(frestaurant[0], a, sources)
-    print r
     if not r in user_profile.gotos.all():
       user_profile.gotos.add(r)
       user_profile.save()
