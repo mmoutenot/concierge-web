@@ -29,7 +29,7 @@
           <div class="recText">
           	<span style="float:left;">
 	          <div class="recTitle recLeft"> {{ r.title }} </div>
-	          <div class="recAddress recLeft">{{ r.address.street_address }} </div>
+	          <div class="recAddress recRight">{{ r.address.street_address }} {{r.address.city}}, {{r.address.state}}</div>
           	</span>
           		{% for c in cuisines %}
 	          <div class="recDesc recClear">{{c}} </div>
