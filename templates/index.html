@@ -19,7 +19,7 @@
   <body>
     {% if not request.user.is_authenticated %}
       <div class="row">
-        <div class="large-10 large-centered columns" id="header"><h1>Concierge</h1></div>
+        <img id="header" src="../static/img/logo.png">
       </div>
       <div class="row">
         <div class="large-7 columns"></div>
@@ -28,7 +28,7 @@
     {% else %}
       <div class="row">
         <div id="rec-wrap">
-          <div class="large-8 columns"><h1>Concierge</h1></div>
+          <img class="large-8 columns" src="../static/img/logo.png">
           <div id="rec-links">
             <div class="large-4 columns"><h3><a href="./recRestaurants/">Find a new place to eat</a></h3></div>
             <div class="large-4 columns"><h3><a href="./pickgotos/">Make our suggestions better</a></h3></div>
