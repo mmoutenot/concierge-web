@@ -4,11 +4,11 @@
 }
 
 #rec-wrap {
-  margin-top:180px;
+  margin-top:75px;
 }
 
 #rec-links{
-  padding-top:200px;
+  padding-top:250px;
 }
 
 h1 {
@@ -54,7 +54,7 @@ li {
 
 #empowered {
   margin-left: 14px;
-  width: 500px;
+  width: 900px;
 }
 
 #auth {
@@ -75,8 +75,107 @@ li {
 
 #contentWrapper{
   clear:both;
-
 }
+.recLeft{
+	float: left;
+}
+.recClear{
+	clear: both;
+}
+	.recTitle{
+		font-size: 38pt;
+	}
+	.recAddress{
+		margin-top: 30px;
+		margin-left: 8px;
+	}
+	.recDesc{
+		font-size: 15pt;
+		margin-left: 20px
+	}
+
+.recWrapper{
+	width:1000px;
+	margin-left: auto;
+	margin-right: auto;
+}
+	.innerRecWrapper{
+		float: left;
+		width: 100%;
+		border-top: solid 2px orange;
+	}
+
+.singleRec{
+	border-top-width: 5px;
+	border-top-color: black;
+	border-top-style: solid;
+	padding-bottom: 5px;
+	float:left;
+	width: 100%;	
+	margin-bottom: 10px;
+	
+}
+	.imageWrapper{
+		float: left;
+	}
+	.recImage{
+		float: left;
+		width: 250px;
+		}
+
+.recText{
+	padding:5px;
+	float: left;
+}
+
+
+#innerWrapper{
+	float: left;
+	margin-left: auto;
+	margin-right: auto;
+	width:900px;
+	height:100px;
+}
+
+.survey{
+	font-size: 30pt;
+}
+
+.formWrapper{
+	font-size: 30pt;
+}
+.surveyInput{
+	border: 1px black solid;
+	border-radius: 2px;
+	font-size: 30pt;
+}
+
+.resto{width:400px; margin-top: 5px;}
+
+.city{width:200px;}
+
+.state{width:50px;}
+
+::-webkit-input-placeholder {
+   color: orange;
+   opacity: .1;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: orange;
+   opacity: .1;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: orange;
+   opacity: .1;  
+}
+
+:-ms-input-placeholder {  
+   color: orange;
+   opacity: .1;
+}
+
 #leftPop{
   margin-top: 40px;
 }
@@ -104,3 +203,8 @@ li {
   font-size: 18px;
   color:#17529c;
 }
+
+
+
+
+
