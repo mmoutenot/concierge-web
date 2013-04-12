@@ -1,12 +1,44 @@
-<h1>{{ poll.question }}</h1>
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="/savegotos/" method="post">
-{% csrf_token %}
-{% for r in raw_gotos %}
-    <input type="text" name="rawgotos" id="restaurant{{ forloop.counter }}" value="" />
-    <label for="restaurant{{ forloop.counter }}">Restaurant {{ forloop.counter }}</label><br />
-{% endfor %}
-<input type="submit" value="Submit" />
-</form>
+
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Concierge</title>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <script>
+      var accessToken = '{{ user_profile.access_token }}';
+    </script>
+
+    <script src="/static/app.js"></script>
+
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+
+  <body>
+    <div id="contentWrapper">
+	      <h2>Where do you eat?</h2>
+			
+			{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+			<div class="formWrapper">
+			<form class="survey" action="/savegotos/" method="post">
+			{% csrf_token %}
+			{% for r in raw_gotos %}
+			    <label for="restaurant{{ forloop.counter }}">I really like</label>
+			    <input class="surveyInput resto" type="text" name="rawgotos" id="restaurant{{ forloop.counter }}" value="" />
+			    <label for="restaurant{{ forloop.counter }}">which is in </label>
+			    <input class="surveyInput city" type="text" name="rawcities" id="city{{ forloop.counter }}" value="city"/>, 
+			    <input class="surveyInput state " type="text" name="rawstates" id="state{{ forloop.counter }}" value="state"/>
+
+			    <br />
+			{% endfor %}
+			<input type="submit" value="Submit" />
+			</form>    
+			</div>
+	</div>
+  </body>
+</html>
