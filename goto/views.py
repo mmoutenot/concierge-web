@@ -22,7 +22,14 @@ def savegotos(request):
     if request.user.is_authenticated():
       user_profile = request.user.get_profile()
       rawgotos = request.POST.getlist(unicode('rawgotos'),'')
-      fgotos = [match.matchRestaurant(r) for r in rawgotos]
+      rawcities = request.POST.getlist(unicode('rawcities'),'')
+      rawstates = request.POST.getlist(unicode('rawstates'),'')
+      fgotos = []
+      for r in range(len(rawgotos)):
+        if rawgotos[r]:
+          fgotos.append(match.matchRestaurant(rawgotos[r],
+                                         rawcities[r],
+                                         rawstates[r])) 
       gotos = []
       
       for f in fgotos:
