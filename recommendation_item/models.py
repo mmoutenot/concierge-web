@@ -92,11 +92,11 @@ def addressFromFactual(datum):
                                                       longitude=datum.get('longitude',-1),
                                                        latitude=datum.get('latitude',-1))
     return [a, a_created]
-  
+
 def restaurantFromFactual(datum, a, sources):
     r, r_created = Restaurant.objects.get_or_create( title=datum.get('name',None),
                                                        cuisines=datum.get('cuisine',None),
-                                                         rating=datum.get('rating', -1),
+                                                         rating=(datum.get('rating', 3) - 3) / 2,
                                                           price=datum.get('price', -1),
                                                         address=a,
                                                    data_sources=sources)
