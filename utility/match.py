@@ -5,12 +5,11 @@ FACTUAL_SECRET = "Qh25xjtI1XzsJ2CT7TohBArnSQKt3P3v8uyHZKpC"
 
 factual = Factual(FACTUAL_KEY, FACTUAL_SECRET)
 
-def matchRestaurant(restaurant_name, address = None):
+def matchRestaurant(restaurant_name, city, state):
     
-    if address:
-        s = factual.table("restaurants").search(restaurant_name + " " + address).data()
-    else:
-        s = factual.table("restaurants").search(restaurant_name).data()
-
+    address = city + " " + state
+    s = factual.table("restaurants").search(restaurant_name + " " + address).data()
+    if not s:
+      s = factual.table("restaurants").search(restaurant_name + " " + state).data()
 
     return s
