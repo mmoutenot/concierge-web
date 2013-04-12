@@ -23,13 +23,16 @@ def gImageSearch(restaurant):
   rawResponse = urllib2.urlopen(request)
   response = simplejson.load(rawResponse)
 
-  if unicode('photos') in response[unicode('results')][0]:
-    photo_reference = response[unicode('results')][0][unicode('photos')][0][unicode('photo_reference')]
-    print photo_reference
-    image_url = ("https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photo_reference +
-              "&sensor=false" +
-              "&maxheight=1600&maxwidth=1600&key=AIzaSyABwfAPXtUlwllUy7jx1WA4sbKPbDkd9ZE")
-    return image_url
+  print response
+
+  if unicode('results') in response:
+    if unicode('photos') in response[unicode('results')][0]:
+      photo_reference = response[unicode('results')][0][unicode('photos')][0][unicode('photo_reference')]
+      print photo_reference
+      image_url = ("https://maps.googleapis.com/maps/api/place/photo?photoreference=" + photo_reference +
+                "&sensor=false" +
+                "&maxheight=1600&maxwidth=1600&key=AIzaSyABwfAPXtUlwllUy7jx1WA4sbKPbDkd9ZE")
+      return image_url
 
   url = ("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+query+
          "&safe=active&imgsz=small|medium|large|xlarge ")
