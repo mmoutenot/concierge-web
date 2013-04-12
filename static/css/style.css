@@ -145,12 +145,12 @@ li {
 	font-size: 30pt;
 }
 .surveyInput{
-	border: 1px black solid;
+	border: 1px rgba(0,0,0,0.42) solid;
 	border-radius: 2px;
 	font-size: 30pt;
 }
 
-.resto{width:400px; margin-top: 5px;}
+.resto{width:400px; margin-top: 5px;padding:3px;}
 
 .city{width:200px;}
 
@@ -158,23 +158,41 @@ li {
 
 ::-webkit-input-placeholder {
    color: orange;
-   opacity: .1;
+   opacity: .3;
 }
 
 :-moz-placeholder { /* Firefox 18- */
    color: orange;
-   opacity: .1;
+   opacity: .3;
 }
 
 ::-moz-placeholder {  /* Firefox 19+ */
    color: orange;
-   opacity: .1;  
+   opacity: .3;  
 }
 
 :-ms-input-placeholder {  
    color: orange;
-   opacity: .1;
+   opacity: .3;
 }
+.submitButton{
+	display: inline-block;
+	padding: 5px 10px 6px;
+	color: #fff;
+	text-decoration: none;
+	font-weight: bold;
+	line-height: 1;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+	border-bottom: 1px solid rgba(0,0,0,0.25);
+	position: relative;
+	cursor: pointer;
+	background-color: #ff5c00;
+}
+
 
 #leftPop{
   margin-top: 40px;

@@ -1,8 +1,3 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -28,15 +23,17 @@
 			<form class="survey" action="/savegotos/" method="post">
 			{% csrf_token %}
 			{% for r in raw_gotos %}
-			    <label for="restaurant{{ forloop.counter }}">I really like</label>
-			    <input class="surveyInput resto" type="text" name="rawgotos" id="restaurant{{ forloop.counter }}" value="" />
-			    <label for="restaurant{{ forloop.counter }}">which is in </label>
-			    <input class="surveyInput city" type="text" name="rawcities" id="city{{ forloop.counter }}" value="city"/>, 
-			    <input class="surveyInput state " type="text" name="rawstates" id="state{{ forloop.counter }}" value="state"/>
+			    <label style="font-size:20pt;opacity:.6;"for="restaurant{{ forloop.counter }}">I really like</label>
+			    <input class="surveyInput resto" type="text" name="rawgotos" id="restaurant{{ forloop.counter }}" placeholder="this restaurant" />
+			    <label style="font-size:20pt;opacity:.6;margin-right:5px;" for="restaurant{{ forloop.counter }}">which is in </label>
+			    <input class="surveyInput city" type="text" name="rawcities" id="city{{ forloop.counter }}" placeholder="city"/>
+			    <span style="font-size:20pt;opacity:.6;margin-right:5px;">,</span> 
+			    <input class="surveyInput state " type="text" name="rawstates" id="state{{ forloop.counter }}" placeholder="state"/>
 
 			    <br />
 			{% endfor %}
-			<input type="submit" value="Submit" />
+			<a href="../recRestaurants/" style="font-size:12pt;">Skip this step</a>
+			<input style="float:right;margin-right:150px;" type="submit" class="submitButton" value="Submit" />
 			</form>    
 			</div>
 	</div>

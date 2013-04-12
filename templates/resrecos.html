@@ -11,34 +11,38 @@
 
     <script src="/static/app.js"></script>
 
-    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/css/style.css" />
   </head>
 
   <body>
-    <div id="header" class="left">
-      <a id="headerText" class="left" href="/">Concierge</a>
-      <span id="tagline" class="left"> We recommend things</span>
-    </div>
-    <div id="contentWrapper">
-      <div id="" class="">
-        <h2>Here's a bunch of restaurants you might like</h2>
+    <div id="contentWrapper" class="recWrapper">
+      <h2>Here's a bunch of restaurants you might like</h2>
+      <a href="../">Back</a>
+      
         {% if request.user.is_authenticated %}
-        {% for r, img in recs %}
-        <div id="songWrapper">
-          <div id="songList">
-            <img src='{{ img }}'\>
-            {{ r.title }} 
-            {{ r.address.street_address }} 
-            {{ r.city }} 
-            {{ r.state }} 
-            {{ r.rating }} 
-            {{ r.price }} 
-            {{ r.cuisines }} 
+        {% for r, cuisines, img in recs %}
+        <div class="innerRecWrapper">
+        <div class="singleRec">
+          <div class="imageWrapper">
+            <img class="recImage" src='{{ img }}' \>
           </div>
-        </div>
+          <div class="recText">
+          	<span style="float:left;">
+	          <div class="recTitle recLeft"> {{ r.title }} </div>
+	          <div class="recAddress recLeft">{{ r.address.street_address }} </div>
+          	</span>
+          		{% for c in cuisines %}
+	          <div class="recDesc recClear">{{c}} </div>
+	          
+	            {% endfor %}
+          </div>
+            
+                       
+          </div>
+          </div>
         {% endfor %}
         {% endif %}
-      </div>
+        
     </div>
   </body>
 </html>
