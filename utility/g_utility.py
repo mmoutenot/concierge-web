@@ -23,8 +23,6 @@ def gImageSearch(restaurant):
   rawResponse = urllib2.urlopen(request)
   response = simplejson.load(rawResponse)
 
-  print response
-
   if unicode('results') in response:
     if unicode('photos') in response[unicode('results')][0]:
       photo_reference = response[unicode('results')][0][unicode('photos')][0][unicode('photo_reference')]
@@ -35,12 +33,13 @@ def gImageSearch(restaurant):
       return image_url
 
   url = ("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+query+
-         "&safe=active&imgsz=small|medium|large|xlarge ")
+         "&safe=active")
   
   request = urllib2.Request(
       url, None, {'Referer': 'Noone'})
   rawResponse = urllib2.urlopen(request)
   response = simplejson.load(rawResponse)
+
 
 
   results = response[unicode('responseData')][unicode('results')]
