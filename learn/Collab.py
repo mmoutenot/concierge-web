@@ -1,5 +1,6 @@
 import cPickle, json, math
 from datetime import date
+from collections import Counter
 
 from user_profile.models import UserProfile
 from recommendation_item.models import RecommendationItem, Restaurant
@@ -21,7 +22,7 @@ class Collab(object):
 
     # find top n users most similar to u that have rated item i
     relevant_users = [ x for x in UserProfile.objects.all()
-                                  if not x == u and self._get_rating(i,x) ]
+                                  if not x == u ]
     top_n_most_sim = sorted(relevant_users,
                             key=lambda x: abs(self._user_user_sim(u,x)),
                             reverse=True)[:10]
@@ -34,9 +35,12 @@ class Collab(object):
       sum_of_weights += weight
       weighted_sum += weight * self._get_rating(i, user)
     if isinstance(i, Restaurant):
-      return (weighted_sum + i.rating) / (sum_of_weights + 1.0)
+      weight = self._user_expert_sim(u)
+      sum_of_weights += weight
+      weighted_sum += weight * i.rating
     if sum_of_weights == 0:
       return 0
+    print "score", i, weighted_sum / sum_of_weights
     return (weighted_sum / sum_of_weights)
 
   # returns a sorted list of the top n items that user u has not rated
@@ -51,6 +55,9 @@ class Collab(object):
                        reverse=True)[:n])[0]
 
   def suggest_restaurants(self, n, u):
+    for x in UserProfile.objects.all():
+      print x.user.username, self._user_user_sim(x,u)
+    print self._user_expert_sim(u)
     item_rating_pairs = []
     for i in Restaurant.objects.all():
       if i not in u.gotos.all():
@@ -58,6 +65,37 @@ class Collab(object):
     return zip(*sorted(item_rating_pairs,
                        key=lambda x: x[1],
                        reverse=True)[:n])[0]
+
+  def ensamble_suggestion(self, n, u):
+    collab_weight = 1.0
+    sim_weight = 1.0
+    weight_sum = collab_weight + sim_weight
+    restaurant_ratings = []
+    for i in Restaurant.objects.all():
+      if i not in u.gotos.all():
+        restaurant_ratings.append((i,
+          (collab_weight * self.predict_rating(i, u) + sim_weight * self.user_restaurant_sim(i, u)) / weight_sum))
+    top_n = zip(*sorted(restaurant_ratings,
+                       key=lambda x: x[1],
+                       reverse=True)[:n])[0]
+    return top_n
+
+
+  def user_restaurant_sim(self, r, u):
+    user_cuisine_counter = Counter()
+    gotos = u.gotos.all()
+    for goto in gotos:
+      if goto.cuisines:
+        user_cuisine_counter.update(eval(goto.cuisines))
+    u_vec = []
+    r_vec = []
+    r_cuisines = eval(r.cuisines) if r.cuisines else []
+    keys = set(user_cuisine_counter.keys() + r_cuisines)
+    for c in keys:
+      u_vec.append(user_cuisine_counter[c] / float(len(gotos)))
+      r_vec.append(1 if c in r_cuisines else 0)
+    sim = Collab.cosine(u_vec, r_vec)
+    return sim
 
   # returns true if a user u has recommended reccomendation item i
   # else returns false
@@ -79,6 +117,7 @@ class Collab(object):
   def __init__(self):
     self.user_user_sim_cache = {}
     self.feature_vector_cache = {}
+    self.user_expert_sim_cache = {}
 
   # user-user similarity metric
   # returns a scaler between 0 and 1 representing the similarity
@@ -86,7 +125,7 @@ class Collab(object):
   def _user_user_sim(self, u1, u2):
     if (u1,u2) in self.user_user_sim_cache:
       return self.user_user_sim_cache[(u1,u2)]
-    if (u2,u1) in self.user_user_sim_cache[(u2,u1)]:
+    if (u2,u1) in self.user_user_sim_cache:
       return self.user_user_sim_cache[(u2,u1)]
     u1_features = self._get_feature_vector(u1)
     u2_features = self._get_feature_vector(u2)
@@ -96,17 +135,33 @@ class Collab(object):
     for key in keys:
       u1_vec.append(u1_features[key] if key in u1_features else 0)
       u2_vec.append(u2_features[key] if key in u2_features else 0)
-    prod_sum = 0.0
-    u1_sq_sum = 0.0
-    u2_sq_sum = 0.0
-    for f1, f2 in zip(u1_vec, u2_vec):
-      prod_sum += f1 * f2
-      u1_sq_sum += f1 * f1
-      u2_sq_sum += f2 * f2
-    sim = prod_sum / ( math.sqrt(u1_sq_sum) * math.sqrt(u2_sq_sum) )
+    sim = Collab.cosine(u1_vec, u2_vec)
     self.user_user_sim_cache[(u1,u2)] = sim
     return sim
 
+  def _user_expert_sim(self, u):
+    if u in self.user_expert_sim_cache:
+      return self.user_expert_sim_cache[u]
+    u_vec = []
+    exp_vec = []
+    gotos = u.gotos.all()
+    for i in gotos:
+      u_vec.append(1)
+      exp_vec.append(i.rating)
+    sim = Collab.cosine(u_vec, exp_vec)
+    self.user_expert_sim_cache[u] = sim
+    return sim
+
+  @staticmethod
+  def cosine(v1, v2):
+    prod_sum, v1_sq_sum, v2_sq_sum = 0.0, 0.0, 0.0
+    for f1, f2 in zip(v1, v2):
+      prod_sum += f1 * f2
+      v1_sq_sum += f1 * f1
+      v2_sq_sum += f2 * f2
+    if v1_sq_sum == 0 or v2_sq_sum == 0:
+      return 0.0
+    return prod_sum / ( math.sqrt(v1_sq_sum) * math.sqrt(v2_sq_sum) )
 
   # returns the rating of item i by user u. If user u has not rated item i,
   # returns None
@@ -122,8 +177,8 @@ class Collab(object):
     if u in self.feature_vector_cache:
       return self.feature_vector_cache[u]
     feature_vector = {}
-    gotos = u.gotos.all()
+    gotos = [ i.title for i in u.gotos.all() ]
     for r in RecommendationItem.objects.all():
-      feature_vector[r.title] = 1 if r in gotos else 0
+      feature_vector[r.title] = 1 if r.title in gotos else 0
     self.feature_vector_cache[u] = feature_vector
     return feature_vector
