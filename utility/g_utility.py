@@ -6,7 +6,7 @@ from recommendation_item.models import Restaurant, Address
 # user's IP address. Doing so will help distinguish this legitimate
 # server-side traffic from traffic which doesn't come from an end-user.
 
-google_key = 'AIzaSyDh0ollMqMwZ7-jei4IRTFTd5XIXTCNlv8'
+google_key = 'AIzaSyBFD-5MKrHvcu2vtCI630fhGWpzBPEZqdk'
 
 def gImageSearch(restaurant):
 
