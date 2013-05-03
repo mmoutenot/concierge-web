@@ -51,8 +51,6 @@ class Collab(object):
                        reverse=True)[:n])[0]
 
   def suggest_restaurants(self, n, u):
-    print "SUGGESTING!!!!!!"
-    print u.gotos.all()
     item_rating_pairs = []
     for i in Restaurant.objects.all():
       if i not in u.gotos.all():
@@ -78,10 +76,18 @@ class Collab(object):
   # FUNCTIONS NOT FOR OUTSIDE USE (PRIVATE)
   #########################################
 
+  def __init__(self):
+    self.user_user_sim_cache = {}
+    self.feature_vector_cache = {}
+
   # user-user similarity metric
   # returns a scaler between 0 and 1 representing the similarity
   # between two given UserProfiles u1 and u2. Closer to 1 is more similar.
   def _user_user_sim(self, u1, u2):
+    if (u1,u2) in self.user_user_sim_cache:
+      return self.user_user_sim_cache[(u1,u2)]
+    if (u2,u1) in self.user_user_sim_cache[(u2,u1)]:
+      return self.user_user_sim_cache[(u2,u1)]
     u1_features = self._get_feature_vector(u1)
     u2_features = self._get_feature_vector(u2)
     u1_vec = []
@@ -97,7 +103,9 @@ class Collab(object):
       prod_sum += f1 * f2
       u1_sq_sum += f1 * f1
       u2_sq_sum += f2 * f2
-    return prod_sum / ( math.sqrt(u1_sq_sum) * math.sqrt(u2_sq_sum) )
+    sim = prod_sum / ( math.sqrt(u1_sq_sum) * math.sqrt(u2_sq_sum) )
+    self.user_user_sim_cache[(u1,u2)] = sim
+    return sim
 
 
   # returns the rating of item i by user u. If user u has not rated item i,
@@ -111,8 +119,11 @@ class Collab(object):
   # returns the feature vector corresponding to that UserProfile. missing items
   # have the value None
   def _get_feature_vector(self, u):
+    if u in self.feature_vector_cache:
+      return self.feature_vector_cache[u]
     feature_vector = {}
     gotos = u.gotos.all()
     for r in RecommendationItem.objects.all():
       feature_vector[r.title] = 1 if r in gotos else 0
+    self.feature_vector_cache[u] = feature_vector
     return feature_vector
