@@ -80,6 +80,7 @@ class Restaurant(RecommendationItem):
   rating = models.FloatField(null=True, blank=True)
   # price from 1-5
   price = models.IntegerField()
+  image = models.CharField(max_length=600, null=True, blank=True)
 
   def __unicode__(self):
     return self.title

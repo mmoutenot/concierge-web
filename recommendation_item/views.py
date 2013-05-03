@@ -70,10 +70,6 @@ def recommendRestaurants(request, template = "resrecos.html" ):
   print recommendations
   #recommendations = user_profile.gotos
   recs = []
-  #  cuisines = eval(str(r.cuisines))
-  #  image = r.image
-  #  if not image:
-  #    image =  g_utility.gImageSearch(r)
   for r in recommendations:
     cuisines = eval(str(r.cuisines))
     recs.append((r, cuisines, g_utility.gImageSearch(r)))
