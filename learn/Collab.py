@@ -65,29 +65,27 @@ class Collab(object):
                        key=lambda x: x[1],
                        reverse=True)[:n])[0]
 
-  def ensemble_suggestion(self, n, u, latitude, longitude, furthest = 0.01):
+  def ensemble_suggestion(self, n, u, latitude, longitude, furthest = 0.007):
     collab_weight = 1.0
     sim_weight = 1.0
     weight_sum = collab_weight + sim_weight
     restaurant_ratings = []
     max_distance = 3
-    print longitude, latitude
 
     for i in Restaurant.objects.filter(
                     address__longitude__gt = longitude - furthest,
                     address__longitude__lt = longitude + furthest,
                     address__latitude__gt = latitude - furthest,
                     address__latitude__lt = latitude + furthest):
-       
       print longitude, " ", latitude, " ", i.address.latitude, " " , i.address.longitude, " "
       if (i not in u.gotos.all()):
         restaurant_ratings.append((i,
           (collab_weight * self.predict_rating(i, u) + sim_weight * self.user_restaurant_sim(i, u)) / weight_sum))
+    if len(restaurant_ratings) < n:
+      return self.ensemble_suggestion(n, u, latitude, longitude, furthest+0.01)
     top_n = zip(*sorted(restaurant_ratings,
                        key=lambda x: x[1],
                        reverse=True)[:n])[0]
-    if len(top_n) < n:
-      return ensemble_suggestion(n, u, latitude, longitude, furthest+0.01)
     return top_n
 
 
