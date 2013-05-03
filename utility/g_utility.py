@@ -17,13 +17,12 @@ def gImageSearch(restaurant):
          "&key=AIzaSyABwfAPXtUlwllUy7jx1WA4sbKPbDkd9ZE&sensor=false")
   
   
-
   request = urllib2.Request(
       url, None, {'Referer': 'Noone'})
   rawResponse = urllib2.urlopen(request)
   response = simplejson.load(rawResponse)
 
-  if unicode('results') in response:
+  if unicode('results') in response and len(response[unicode('results')]) > 0:
     if unicode('photos') in response[unicode('results')][0]:
       photo_reference = response[unicode('results')][0][unicode('photos')][0][unicode('photo_reference')]
       print photo_reference
