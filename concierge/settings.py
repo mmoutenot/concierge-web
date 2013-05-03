@@ -5,8 +5,8 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-SINGLY_CLIENT_ID = '4c264500174673d23df7787d31a1711c'
-SINGLY_CLIENT_SECRET = '5bbb3cff19b237b4e3bf76cefb903473'
+SINGLY_CLIENT_ID = 'bf19470d3e2edbc464bdb28b628af1b5'
+SINGLY_CLIENT_SECRET = 'b421eab26644737aa82d7fca62a46f27'
 # lvh.me is just a domain name for localhost
 SINGLY_REDIRECT_URI = 'http://localhost:8000/authorize/callback'
 
