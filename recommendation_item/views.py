@@ -63,7 +63,8 @@ def testFactual(request):
   return HttpResponse("OK")
 
 
-def recommendRestaurants(request, template = "resrecos.html" ):
+def recommendRestaurants(request, template = "resrecos.html", latitude = -1000.0, longitude = -1000.0):
+  print request
   c = Collab()
   user_profile = request.user.get_profile()
   recommendations = c.suggest_restaurants(4,user_profile)
@@ -72,7 +73,10 @@ def recommendRestaurants(request, template = "resrecos.html" ):
   recs = []
   for r in recommendations:
     cuisines = eval(str(r.cuisines))
-    recs.append((r, cuisines, g_utility.gImageSearch(r)))
+    if not r.image:
+      r.image = g_utility.gImageSearch(r)
+
+    recs.append((r, cuisines, r.image))
 
 
 
