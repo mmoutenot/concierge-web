@@ -40,7 +40,6 @@ class Collab(object):
       weighted_sum += weight * i.rating
     if sum_of_weights == 0:
       return 0
-    print "score", i, weighted_sum / sum_of_weights
     return (weighted_sum / sum_of_weights)
 
   # returns a sorted list of the top n items that user u has not rated
@@ -66,13 +65,14 @@ class Collab(object):
                        key=lambda x: x[1],
                        reverse=True)[:n])[0]
 
-  def ensamble_suggestion(self, n, u):
+  def ensemble_suggestion(self, n, u, longitude, latitude):
     collab_weight = 1.0
     sim_weight = 1.0
     weight_sum = collab_weight + sim_weight
     restaurant_ratings = []
     for i in Restaurant.objects.all():
-      if i not in u.gotos.all():
+      distance = i.distanceFromPoint((longitude, latitude))
+      if (i not in u.gotos.all()) and distance < 3:
         restaurant_ratings.append((i,
           (collab_weight * self.predict_rating(i, u) + sim_weight * self.user_restaurant_sim(i, u)) / weight_sum))
     top_n = zip(*sorted(restaurant_ratings,

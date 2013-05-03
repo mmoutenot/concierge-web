@@ -67,7 +67,7 @@ def recommendRestaurants(request, template = "resrecos.html", latitude = -1000.0
   print request
   c = Collab()
   user_profile = request.user.get_profile()
-  recommendations = c.ensamble_suggestion(4,user_profile)
+  recommendations = c.ensemble_suggestion(4,user_profile,latitude,longitude)
   print recommendations
   #recommendations = user_profile.gotos
   recs = []
