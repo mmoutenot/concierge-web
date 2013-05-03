@@ -1,4 +1,5 @@
 from factual import Factual
+from factual.utils import circle
 
 FACTUAL_KEY = "koqW7kcnT4qXVi6ruJC25LSVZhhpEwnxTJnDT0Kn"
 FACTUAL_SECRET = "JgofM3V440POwypFRGgtgkbDuOGbPbTCoTw0M4Gv"
@@ -17,6 +18,7 @@ def matchRestaurant(restaurant_name, city="", state=""):
 def matchCoordinates(address):
     query = factual.table("world-geographies").search(address).limit(1)
     query = query.select("longitude,latitude")
+    query = query.geo(circle(42.350933, -71.069209, 5000))
     s = query.data()
     if len(s):
       return (s[0][unicode('latitude')], s[0][unicode('longitude')])
