@@ -40,11 +40,10 @@ def gImageSearch(restaurant):
       url, None, {'Referer': 'Noone'})
   rawResponse = urllib2.urlopen(request)
   response = simplejson.load(rawResponse)
-  print response
 
 
 
-  if unicode('results') in response and len(response[unicode('results')]) > 0:
+  if unicode('responseData') in response and len(response[unicode('responseData')][unicode('results')]) > 0:
     results = response[unicode('responseData')][unicode('results')]
   else:
     return ''
