@@ -13,3 +13,11 @@ def matchRestaurant(restaurant_name, city="", state=""):
       s = factual.table("restaurants").search(restaurant_name + " " + state).data()
 
     return s
+
+def matchCoordinates(address):
+    query = factual.table("world-geographies").search(address).limit(1)
+    query = query.select("longitude,latitude")
+    s = query.data()
+    if len(s):
+      return (s[0][unicode('latitude')], s[0][unicode('longitude')])
+    return (42.350933, -71.069209)

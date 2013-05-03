@@ -19,6 +19,11 @@
       <h2>Here's a bunch of restaurants you might like</h2>
       <a href="../">Back</a>
       
+        <form name="input" action="/recRestaurants/" method="post">
+			  {% csrf_token %}
+        Location: <input type="text" name="location">
+        <input type="submit" value="Submit">
+        </form>
         {% if request.user.is_authenticated %}
         {% for r, cuisines, img in recs %}
         <div class="innerRecWrapper">

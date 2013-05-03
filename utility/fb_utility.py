@@ -30,7 +30,6 @@ def fill_profile(user_profile, singly_id, access_token):
     like = [i[udata][unicode("name")],i[udata][unicode("category")]]
     if(like[1] == "Restaurant/cafe"):
       fill_restaurant_likes(user_profile, like[0], i)
-    fb_profile["likes"].append(like)
 
   return json.dumps(fb_profile)
     

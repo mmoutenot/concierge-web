@@ -8,6 +8,7 @@ from factual import Factual
 from factual.utils import circle
 
 from utility import g_utility
+from utility import match 
 from learn.Collab import Collab
 
 
@@ -66,9 +67,14 @@ def testFactual(request):
 def recommendRestaurants(request, template = "resrecos.html"):
   c = Collab()
   user_profile = request.user.get_profile()
-  latitude, longitude =   eval(request.COOKIES['coords'])
-  print latitude
-  print longitude
+  location = request.POST.get(unicode('location'),'')
+  if location:
+      latitude, longitude = match.matchCoordinates(location)
+      print latitude, longitude
+      request.COOKIES['coords'] = ("("+str(latitude)+","+
+                                   str(longitude)+")")
+  else:
+    latitude, longitude =   eval(request.COOKIES['coords'])
   recommendations = c.ensemble_suggestion(4,user_profile,latitude,longitude)
   print recommendations
   #recommendations = user_profile.gotos
@@ -77,6 +83,8 @@ def recommendRestaurants(request, template = "resrecos.html"):
     cuisines = eval(str(r.cuisines))
     if not r.image:
       r.image = g_utility.gImageSearch(r)
+      if len(r.image) < 399:
+        r.save()
 
     recs.append((r, cuisines, r.image))
 
