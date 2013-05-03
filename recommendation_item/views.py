@@ -66,7 +66,7 @@ def testFactual(request):
 def recommendRestaurants(request, template = "resrecos.html" ):
   c = Collab()
   user_profile = request.user.get_profile()
-  recommendations = c.suggest_restaurants(4,user_profile)
+  recommendations = c.ensamble_suggestion(4,user_profile)
   print recommendations
   #recommendations = user_profile.gotos
   recs = []
