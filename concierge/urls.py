@@ -19,5 +19,5 @@ urlpatterns += patterns('recommendation_item.views',
     url(r'^getFactual/', 'testFactual'))
 
 urlpatterns += patterns('recommendation_item.views',
-    url(r'^recRestaurants/(?P<longitude>\-\d+\.\d+)/(?P<latitude>\d+\.\d+)/',
+    url(r'^recRestaurants/',
              'recommendRestaurants'))

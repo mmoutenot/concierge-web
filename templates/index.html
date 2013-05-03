@@ -18,7 +18,8 @@
 
     <script>
     function success(position) {
-      document.getElementById("rec").href = "./recRestaurants/" + position.coords.longitude + "/" + position.coords.latitude + "/"
+      var c_value="("+position.coords.latitude+","+position.coords.longitude+")"
+      document.cookie= "coords=" + c_value;
     }
     function error(msg) {
       console.log(msg)
@@ -52,7 +53,7 @@
           <img class="large-8 columns" src="../static/img/logo.png">
           <div id="rec-links">
             <div class="large-4 columns"><h3><a id="rec" href="./recRestaurants/">Find a new place to eat</a></h3></div>
-            <div class="large-4 columns"><h3><a href="./pickgotos/">Make our suggestions better</a></h3></div>
+            <div class="large-4 columns"><h3><a id="pick" href="./pickgotos/">Make our suggestions better</a></h3></div>
             <div class="large-4 columns"><h3><a id="logout" href="https://api.singly.com/logout?access_token={{ user_profile.access_token }}&redirect_uri=http://localhost:8000/logout/">Logout</a></h3></div>
           </div>
         </div>

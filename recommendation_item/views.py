@@ -63,10 +63,12 @@ def testFactual(request):
   return HttpResponse("OK")
 
 
-def recommendRestaurants(request, template = "resrecos.html", latitude = -1000.0, longitude = -1000.0):
-  print request
+def recommendRestaurants(request, template = "resrecos.html"):
   c = Collab()
   user_profile = request.user.get_profile()
+  latitude, longitude =   eval(request.COOKIES['coords'])
+  print latitude
+  print longitude
   recommendations = c.ensemble_suggestion(4,user_profile,latitude,longitude)
   print recommendations
   #recommendations = user_profile.gotos
