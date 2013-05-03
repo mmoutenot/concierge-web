@@ -13,8 +13,8 @@ from learn.Collab import Collab
 
 from recommendation_item.models import Restaurant, Address, restaurantFromFactual, addressFromFactual
 
-FACTUAL_KEY = "frBfryFdtbYqmlgHrMB7LeSYWCOefyS0fhkIQTpp"
-FACTUAL_SECRET = "Qh25xjtI1XzsJ2CT7TohBArnSQKt3P3v8uyHZKpC"
+FACTUAL_KEY = "koqW7kcnT4qXVi6ruJC25LSVZhhpEwnxTJnDT0Kn"
+FACTUAL_SECRET = "JgofM3V440POwypFRGgtgkbDuOGbPbTCoTw0M4Gv"
 
 factual = Factual(FACTUAL_KEY, FACTUAL_SECRET)
 
@@ -70,6 +70,10 @@ def recommendRestaurants(request, template = "resrecos.html" ):
   print recommendations
   #recommendations = user_profile.gotos
   recs = []
+  #  cuisines = eval(str(r.cuisines))
+  #  image = r.image
+  #  if not image:
+  #    image =  g_utility.gImageSearch(r)
   for r in recommendations:
     cuisines = eval(str(r.cuisines))
     recs.append((r, cuisines, g_utility.gImageSearch(r)))

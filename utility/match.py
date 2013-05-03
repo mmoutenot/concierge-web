@@ -1,7 +1,7 @@
 from factual import Factual
 
-FACTUAL_KEY = "frBfryFdtbYqmlgHrMB7LeSYWCOefyS0fhkIQTpp"
-FACTUAL_SECRET = "Qh25xjtI1XzsJ2CT7TohBArnSQKt3P3v8uyHZKpC"
+FACTUAL_KEY = "koqW7kcnT4qXVi6ruJC25LSVZhhpEwnxTJnDT0Kn"
+FACTUAL_SECRET = "JgofM3V440POwypFRGgtgkbDuOGbPbTCoTw0M4Gv"
 
 factual = Factual(FACTUAL_KEY, FACTUAL_SECRET)
 
