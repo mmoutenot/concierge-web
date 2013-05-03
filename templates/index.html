@@ -11,6 +11,11 @@
 
     <script src="/static/js/app.js"></script>
 
+    <script>
+      $('#logout').click(function(){
+      });
+    </script>
+
     <link rel="stylesheet" href="/static/css/normalize.css" />
     <link rel="stylesheet" href="/static/css/foundation.css" />
     <link rel="stylesheet" href="/static/css/style.css" />
@@ -32,7 +37,7 @@
           <div id="rec-links">
             <div class="large-4 columns"><h3><a href="./recRestaurants/">Find a new place to eat</a></h3></div>
             <div class="large-4 columns"><h3><a href="./pickgotos/">Make our suggestions better</a></h3></div>
-            <div class="large-4 columns"><h3><a href="./logout/">Logout</a></h3></div>
+            <div class="large-4 columns"><h3><a id="logout" href="https://api.singly.com/logout?access_token={{ user_profile.access_token }}&redirect_uri=localhost:8000/logout/">Logout</a></h3></div>
           </div>
         </div>
       </div>
